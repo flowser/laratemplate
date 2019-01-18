@@ -18,5 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/{anypath}', 'HomeController@index')->where('path','.*');
 
-Route::get('/courses', 'CourseController@index');
+
+// category
+Route::post('/add-category', 'CategoryController@create');

@@ -173,28 +173,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
                  <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <router-link to="/home" class="nav-link">
                             <i class="nav-icon green fas fa-cog"></i>
                             <p>
                                Dashboard
                             </p>
-                        </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <router-link to="/category-list" class="nav-link">
                             <i class="nav-icon red fas fa-cogs"></i>
                             <p>
                                Category
                             </p>
-                        </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <router-link to="/course" class="nav-link">
                                 <i class="nav-icon purple fas fa-user"></i>
                                 <p>
                                    Course
                                 </p>
-                            </a>
+                            </router-link>
                    </li>
 
 
@@ -276,29 +276,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <div class="content">
-
-        <example-component></example-component>
-        {{-- @yield('content') --}}
-      {{-- <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>            
-          </div>          
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid --> --}}
+        <admin-main></admin-main>   
     </div>
     <!-- /.content -->
   </div>
@@ -341,7 +319,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>                       
 </aside>
   <!-- /.control-sidebar -->
-  <example-component></example-component>
+
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->

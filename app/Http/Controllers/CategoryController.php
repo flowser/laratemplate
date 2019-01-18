@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Category;
 
 class CategoryController extends Controller
 {
@@ -21,9 +22,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $category = New Category();
+        $category ->name = $request->name;
+        $category->save();
+        return ['message', 'Category Created succesfully'];
     }
 
     /**
