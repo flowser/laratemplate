@@ -277,7 +277,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <div class="content">
 
-        @yield('content')
+        <example-component></example-component>
+        {{-- @yield('content') --}}
       {{-- <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
@@ -340,7 +341,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>                       
 </aside>
   <!-- /.control-sidebar -->
-
+  <example-component></example-component>
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->
