@@ -184,6 +184,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="nav-link">
                             <i class="nav-icon red fas fa-cogs"></i>
                             <p>
+                               Category
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon purple fas fa-user"></i>
+                                <p>
+                                   Course
+                                </p>
+                            </a>
+                   </li>
+
+
+                 {{-- <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon green fas fa-cog"></i>
+                            <p>
+                               Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon red fas fa-cogs"></i>
+                            <p>
                                Developer
                             </p>
                         </a>
@@ -220,7 +246,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                 </ul>
-            </li>                   
+            </li>                    --}}
         </ul>
     </nav>
       <!-- /.sidebar-menu -->
@@ -250,7 +276,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
+
+        @yield('content')
+      {{-- <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
             <div class="card">
@@ -269,7 +297,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>          
         </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div><!-- /.container-fluid --> --}}
     </div>
     <!-- /.content -->
   </div>
