@@ -1,8 +1,27 @@
 
 require('./bootstrap');
-
 window.Vue = require('vue');
-//import Vue router
+
+// Support vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import storeData from "./store/index"
+const store = new Vuex.Store(
+    storeData
+)
+
+//support moment js
+import moment from 'moment'
+
+Vue.filter('upText', function(text){
+    return text.charAt(0).toUpperCase() + text.slice(1);
+ });
+ 
+ Vue.filter('dateformat', function(created){
+   return moment(created).format('MMM Do YYYY');
+ });
+
+// Vue router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
@@ -14,16 +33,32 @@ Vue.component('admin-main', require('./components/admin/AdminMaster.vue').defaul
 //vform
 import { Form, HasError, AlertError } from 'vform'
 //make global
-
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 window.Form = Form;
 
+//sweetalert2
+import Swal from 'sweetalert2'
+window.Swal = Swal
+
+const toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+
+window.toast =toast;
+
+
+
+//vrouter
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'hash', //hash, history
     routes // short for `routes: routes`
   })
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store,
 });

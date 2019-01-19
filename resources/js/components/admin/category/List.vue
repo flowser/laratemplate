@@ -20,13 +20,15 @@
                   <tr>
                     <th>S1</th>
                     <th>Category Name</th>
+                    <th>Date</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Category Name</td>
+                  <tr v-for="(category, index) in getallCategory" :key="category.id">
+                    <td>{{index+1}}</td>
+                    <td>{{category.name}}</td>
+                    <td>{{category.created_at | dateformat}}</td>
                     <td>
                       <a href="" >Edit</a>
                       <a href="" >Delete</a>
@@ -48,8 +50,18 @@
 
 <script>
 export default {
-  name: "List"
+    name: "List",
+    mounted(){
+       this.$store.dispatch("allCategory")
+    },
+    computed:{
+      getallCategory(){
+          return this.$store.getters.getCategory
+      }     
+    },
+    methods:{
 
+    }
 }
 </script>
 

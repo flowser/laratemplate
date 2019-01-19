@@ -11,17 +11,17 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" @click.prevent="addcategory()">
+              <form role="form" @submit.prevent="addcategory()">
                 <!-- {{ csrf_field() }} -->
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Add new Category</label>
                     <input type="text" class="form-control" id="name"  name="name" placeholder="Enter Add new Category"
-                          v-model="categoryform.name">
+                          v-model="categoryform.name" :class="{ 'is-invalid': categoryform.errors.has('name') }">
+                          <has-error :form="categoryform" field="name"></has-error>
                   </div>                 
                 </div>
                 <!-- /.card-body -->
-
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Save</button>
                 </div>
@@ -48,13 +48,24 @@ export default {
   },
   methods:{
       addcategory(){
-         this.categoryform.post('/add-category')
-              .then((response)=>{
-                    console.log(response.data)
-              })
-              .catch(()=>{
-                
-              })
+        this.categoryform.post('/add-category')
+          .then(()=>{// if successfully without any errors from form submission
+                        this.$router.push('/category-list')
+                        // Fire.$emit('AfterCreate'); //event
+                        // $('#Category').modal('hide') 
+                        toast({
+                            type: 'success',
+                            title: 'Category Created successfully'
+                        })
+                        // this.$Progress.finish();  
+                    })
+                    .catch(()=>{
+                        toast({
+                            type: 'error',
+                            title: 'There are errors check  your form again'
+                        })
+                        // this.$Progress.fail();  
+                    })
       }
   }
 

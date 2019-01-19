@@ -14,7 +14,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        // $categories
+        $categories = Category::all();
+
+        // dd($categories);
+        return response()->json([
+            'categories' =>  $categories
+        ], 200);
     }
 
     /**
@@ -24,6 +29,10 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
+        $this->validate($request,[
+                'name' => 'required|min:2|max:50|unique:categories'
+            ]);
+
         $category = New Category();
         $category ->name = $request->name;
         $category->save();
