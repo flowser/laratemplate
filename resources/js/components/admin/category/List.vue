@@ -30,8 +30,8 @@
                     <td>{{category.name}}</td>
                     <td>{{category.created_at | dateformat}}</td>
                     <td>
-                      <a href="" >Edit</a>
-                      <a href="" >Delete</a>
+                         <router-link :to="`/edit-category/${category.id}`">Edit</router-link>
+                          <a href="" @click.prevent = "deletecategory(category.id)">Delete</a>
                     </td>                  
                   </tr>              
                 </tbody>               
@@ -60,6 +60,27 @@ export default {
       }     
     },
     methods:{
+      deletecategory(id){
+        // console.log(id)
+          axios.get('/category/destroy/'+id)
+             .then(()=>{// if successfully without any errors from form submission
+                       this.$store.dispatch("allCategory") // refresh dataviwed fromdb
+                        // Fire.$emit('AfterCreate'); //event
+                        // $('#Category').modal('hide') 
+                        toast({
+                            type: 'success',
+                            title: 'Category Deleted successfully'
+                        })
+                        // this.$Progress.finish();  
+                    })
+                    .catch(()=>{
+                        toast({
+                            type: 'error',
+                            title: 'Cannot delete the category'
+                        })
+                        // this.$Progress.fail();  
+                    })         
+      }
 
     }
 }

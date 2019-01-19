@@ -7,15 +7,15 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add new Category</h3>
+                <h3 class="card-title">Edit Category</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" @submit.prevent="addcategory()">
+              <form role="form" @submit.prevent="updatecategory()">
                 <!-- {{ csrf_field() }} -->
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="name">Add new Category</label>
+                    <label for="name"> Category</label>
                     <input type="text" class="form-control" id="name"  name="name" placeholder="Enter Add new Category"
                           v-model="categoryform.name" :class="{ 'is-invalid': categoryform.errors.has('name') }">
                           <has-error :form="categoryform" field="name"></has-error>
@@ -37,7 +37,13 @@
 
 <script>
 export default {
-  name: "New",
+  name: "Edit",
+  mounted(){
+      axios.get(`/category/edit/${this.$route.params.categoryid}`)
+            .then((response)=>{
+                 this.categoryform.fill(response.data.category)
+            })
+  },
   data(){
     return{
       categoryform: new Form({
@@ -47,8 +53,8 @@ export default {
     }
   },
   methods:{
-      addcategory(){
-        this.categoryform.post('/add-category')
+      updatecategory(){
+        this.categoryform.post(`/category/update/${this.$route.params.categoryid}`)
                      .then(()=>{// if successfully without any errors from form submission
                         this.$router.push('/category-list')
                         // Fire.$emit('AfterCreate'); //event
