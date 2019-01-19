@@ -23,7 +23,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // category
 Route::get('category', 'CategoryController@index'); //all categories
-Route::post('/add-category', 'CategoryController@create'); //create category
-Route::get('category/edit/{id}', 'CategoryController@edit'); //delete category
-Route::post('category/update/{id}', 'CategoryController@update'); //delete category
-Route::get('category/destroy/{id}', 'CategoryController@destroy'); //delete category
+Route::post('/category/store', 'CategoryController@store'); //create category
+Route::get('/category/edit/{id}', 'CategoryController@edit'); //delete category
+Route::post('/category/update/{id}', 'CategoryController@update'); //delete category
+Route::get('/category/destroy/{id}', 'CategoryController@destroy'); //delete category
+
+// course
+Route::get('course', 'CourseController@index'); //all courses
+Route::post('/course/store', 'CourseController@store'); //create course
+Route::get('/course/edit/{id}', 'CourseController@edit'); //delete course
+Route::post('/course/update/{id}', 'CourseController@update'); //delete course
+Route::get('/course/destroy/{id}', 'CourseController@destroy'); //delete course

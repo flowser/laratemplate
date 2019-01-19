@@ -8,3 +8,7 @@ Vue.filter('upText', function(text){
  Vue.filter('dateformat', function(created){
    return moment(created).format('MMM Do YYYY');
  });
+
+ Vue.filter('sortlength', function(text, length,suffix){
+   return text.substring(0,length)+suffix;
+ })

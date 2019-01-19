@@ -7,18 +7,18 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add new Category</h3>
+                <h3 class="card-title">Add new Course</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" @submit.prevent="addcategory()">
+              <form role="form" @submit.prevent="addcourse()">
                 <!-- {{ csrf_field() }} -->
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="name">Add new Category</label>
-                    <input type="text" class="form-control" id="name"  name="name" placeholder="Enter Add new Category"
-                          v-model="categoryform.name" :class="{ 'is-invalid': categoryform.errors.has('name') }">
-                          <has-error :form="categoryform" field="name"></has-error>
+                    <label for="name">Add new Course</label>
+                    <input type="text" class="form-control" id="name"  name="name" placeholder="Enter Add new Course"
+                          v-model="courseform.name" :class="{ 'is-invalid': courseform.errors.has('name') }">
+                          <has-error :form="courseform" field="name"></has-error>
                   </div>                 
                 </div>
                 <!-- /.card-body -->
@@ -40,22 +40,22 @@ export default {
   name: "New",
   data(){
     return{
-      categoryform: new Form({
+      courseform: new Form({
             name:'',
       })
 
     }
   },
   methods:{
-      addcategory(){
-        this.categoryform.post('/category/store')
+      addcourse(){
+        this.courseform.post('/course/store')
                      .then(()=>{// if successfully without any errors from form submission
-                        this.$router.push('/category-list')
+                        this.$router.push('/course-list')
                         // Fire.$emit('AfterCreate'); //event
-                        // $('#Category').modal('hide') 
+                        // $('#Course').modal('hide') 
                         toast({
                             type: 'success',
-                            title: 'Category Created successfully'
+                            title: 'Course Created successfully'
                         })
                         // this.$Progress.finish();  
                     })

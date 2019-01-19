@@ -29,14 +29,7 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
-        $this->validate($request,[
-                'name' => 'required|min:2|max:50|unique:categories'
-            ]);
-
-        $category = New Category();
-        $category ->name = $request->name;
-        $category->save();
-        return ['message', 'Category Created succesfully'];
+       //
     }
 
     /**
@@ -47,7 +40,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required|min:2|max:50|unique:categories'
+        ]);
+
+            $category = New Category();
+            $category ->name = $request->name;
+            $category->save();
+            return ['message', 'Category Created succesfully'];
     }
 
     /**
@@ -91,7 +91,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->name = $request->name;
         $category ->save();
-        dd($category);
+        // dd($category);
         return response()->json([
             'category' =>$category
         ], 200);

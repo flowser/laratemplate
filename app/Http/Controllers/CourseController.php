@@ -14,12 +14,12 @@ class CourseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        // $courses= Course::with('user', 'category')->get();
-        // dd($courses);
-        $category = Category::with('courses')->get();
-           dd($category);
-        return response()->json($category);
+    { 
+        $courses = Course::with('user', 'category')->get();
+        //    dd($courses);
+        return response()->json([
+            'courses' => $courses,
+        ], 200);
     }
 
     /**
