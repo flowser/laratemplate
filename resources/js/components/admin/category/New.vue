@@ -48,23 +48,27 @@ export default {
   },
   methods:{
       addcategory(){
-        this.categoryform.post('/category/store')
+        
+        this.categoryform.pooouist('/category/store')
+        
                      .then(()=>{// if successfully without any errors from form submission
+                      
                         this.$router.push('/category-list')
                         // Fire.$emit('AfterCreate'); //event
                         // $('#Category').modal('hide') 
+                        this.$Progress.start();
                         toast({
                             type: 'success',
                             title: 'Category Created successfully'
                         })
-                        // this.$Progress.finish();  
+                        this.$Progress.finish();  
                     })
                     .catch(()=>{
                         toast({
                             type: 'error',
                             title: 'There are errors check  your form again'
                         })
-                        // this.$Progress.fail();  
+                        this.$Progress.fail();  
                     })
       }
   }

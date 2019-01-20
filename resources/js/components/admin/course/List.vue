@@ -69,6 +69,7 @@ export default {
     methods:{
       deletecourse(id){
         // console.log(id)
+         this.$Progress.start();
           axios.get('/course/destroy/'+id)
              .then(()=>{// if successfully without any errors from form submission
                        this.$store.dispatch("allCourse") // refresh dataviwed fromdb
@@ -78,14 +79,14 @@ export default {
                             type: 'success',
                             title: 'Course Deleted successfully'
                         })
-                        // this.$Progress.finish();  
+                        this.$Progress.finish();  
                     })
                     .catch(()=>{
                         toast({
                             type: 'error',
                             title: 'Cannot delete the course'
                         })
-                        // this.$Progress.fail();  
+                        this.$Progress.fail();  
                     })         
       }
 

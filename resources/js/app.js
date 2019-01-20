@@ -2,6 +2,13 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
+//editor suport
+import 'v-markdown-editor/dist/index.css';
+
+import Vue from 'vue'
+import Editor from 'v-markdown-editor'
+Vue.use(Editor);
+
 // Support vuex
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -40,10 +47,14 @@ const toast = Swal.mixin({
   showConfirmButton: false,
   timer: 3000
 });
-
 window.toast =toast;
 
-
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '3px'
+})
 
 //vrouter
 const router = new VueRouter({

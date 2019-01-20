@@ -62,6 +62,7 @@ export default {
     methods:{
       deletecategory(id){
         // console.log(id)
+         this.$Progress.start();
           axios.get('/category/destroy/'+id)
              .then(()=>{// if successfully without any errors from form submission
                        this.$store.dispatch("allCategory") // refresh dataviwed fromdb
@@ -71,14 +72,14 @@ export default {
                             type: 'success',
                             title: 'Category Deleted successfully'
                         })
-                        // this.$Progress.finish();  
+                        this.$Progress.finish();  
                     })
                     .catch(()=>{
                         toast({
                             type: 'error',
                             title: 'Cannot delete the category'
                         })
-                        // this.$Progress.fail();  
+                        this.$Progress.fail();  
                     })         
       }
 

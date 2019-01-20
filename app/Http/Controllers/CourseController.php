@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use Illuminate\Http\Request;
 use App\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -28,7 +29,7 @@ class CourseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    { 
         //
     }
 
@@ -40,7 +41,15 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = new Course();
+        $course->title = $request ->title;
+        $course->description = $request ->description;
+        $course->category_id = $request ->category_id;
+        $course->user_id = Auth::id();
+
+        // $course->photo = $request ->photo;
+        $course->save();
+
     }
 
     /**

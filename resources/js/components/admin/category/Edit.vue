@@ -54,6 +54,7 @@ export default {
   },
   methods:{
       updatecategory(){
+        this.$Progress.start();
         this.categoryform.post(`/category/update/${this.$route.params.categoryid}`)
                      .then(()=>{// if successfully without any errors from form submission
                         this.$router.push('/category-list')
@@ -63,14 +64,14 @@ export default {
                             type: 'success',
                             title: 'Category Created successfully'
                         })
-                        // this.$Progress.finish();  
+                        this.$Progress.finish();  
                     })
                     .catch(()=>{
                         toast({
                             type: 'error',
                             title: 'There are errors check  your form again'
                         })
-                        // this.$Progress.fail();  
+                        this.$Progress.fail();  
                     })
       }
   }

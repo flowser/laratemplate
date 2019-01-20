@@ -54,6 +54,7 @@ export default {
   },
   methods:{
       updatecourse(){
+         this.$Progress.start();
         this.courseform.post(`/course/update/${this.$route.params.courseid}`)
                      .then(()=>{// if successfully without any errors from form submission
                         this.$router.push('/course-list')
@@ -63,14 +64,14 @@ export default {
                             type: 'success',
                             title: 'Course Created successfully'
                         })
-                        // this.$Progress.finish();  
+                        this.$Progress.finish();  
                     })
                     .catch(()=>{
                         toast({
                             type: 'error',
                             title: 'There are errors check  your form again'
                         })
-                        // this.$Progress.fail();  
+                        this.$Progress.fail();  
                     })
       }
   }
