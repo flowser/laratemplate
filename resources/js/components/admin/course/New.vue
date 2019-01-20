@@ -87,14 +87,23 @@ export default {
   },
   methods:{
     changePhoto(event){
-      let file = event.target.files[0];
-      let reader = new FileReader();
-      reader.onload = event=> {
-        // The file's text will be printed here
-        this.courseform.photo =event.target.result
-      };
-
-      reader.readAsDataURL(file);
+      let file = event.target.files[0];  
+          if(file.size>1048576){
+            Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'The File youe are uploading is larger than 2mbs!',
+                    footer: '<a href>Why do I have this issue?</a>'
+                  })
+          }else{
+              let reader = new FileReader();
+                reader.onload = event=> {
+                      this.courseform.photo =event.target.result
+                          console.log(event.target.result)
+                    };
+                reader.readAsDataURL(file);
+          }
+      
 
     },
     addcourse(){

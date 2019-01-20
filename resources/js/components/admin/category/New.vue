@@ -49,7 +49,7 @@ export default {
   methods:{
       addcategory(){
         
-        this.categoryform.pooouist('/category/store')
+        this.categoryform.post('/category/store')
         
                      .then(()=>{// if successfully without any errors from form submission
                       

@@ -4133,7 +4133,7 @@ __webpack_require__.r(__webpack_exports__);
     addcategory: function addcategory() {
       var _this = this;
 
-      this.categoryform.pooouist('/category/store').then(function () {
+      this.categoryform.post('/category/store').then(function () {
         // if successfully without any errors from form submission
         _this.$router.push('/category-list'); // Fire.$emit('AfterCreate'); //event
         // $('#Category').modal('hide') 
@@ -4331,7 +4331,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    deletecourse: function deletecourse(id) {
+    courseImage: function courseImage(img) {
+      return "/img/courses/medium/" + img;
+    },
+    deleteCourse: function deleteCourse(id) {
       var _this = this;
 
       // console.log(id)
@@ -4461,14 +4464,24 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var file = event.target.files[0];
-      var reader = new FileReader();
 
-      reader.onload = function (event) {
-        // The file's text will be printed here
-        _this.courseform.photo = event.target.result;
-      };
+      if (file.size > 1048576) {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: 'The File youe are uploading is larger than 2mbs!',
+          footer: '<a href>Why do I have this issue?</a>'
+        });
+      } else {
+        var reader = new FileReader();
 
-      reader.readAsDataURL(file);
+        reader.onload = function (event) {
+          _this.courseform.photo = event.target.result;
+          console.log(event.target.result);
+        };
+
+        reader.readAsDataURL(file);
+      }
     },
     addcourse: function addcourse() {
       var _this2 = this;
@@ -82299,14 +82312,30 @@ var render = function() {
                         _c("td", [
                           _c("img", {
                             attrs: {
-                              src: course.photo,
+                              src: _vm.courseImage(course.photo),
                               alt: "",
                               width: "150px"
                             }
                           })
                         ]),
                         _vm._v(" "),
-                        _vm._m(1, true)
+                        _c("td", [
+                          _c("a", { attrs: { href: "" } }, [_vm._v("Edit")]),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.deleteCourse(course.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Delete")]
+                          )
+                        ])
                       ])
                     }),
                     0
@@ -82341,16 +82370,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "" } }, [_vm._v("Edit")]),
-      _vm._v(" "),
-      _c("a", { attrs: { href: "" } }, [_vm._v("Delete")])
     ])
   }
 ]

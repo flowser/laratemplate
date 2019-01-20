@@ -35,10 +35,10 @@
                     <td v-if="course.category">{{course.category.name}}</td>
                     <td>{{course.title | sortlength(20, "---")}}</td>
                     <td>{{course.description | sortlength(40, "....")}}</td>
-                    <td><img :src="course.photo" alt="" width="150px"></td>
+                    <td><img :src="courseImage(course.photo)" alt="" width="150px"></td>
                     <td>
                          <a href="">Edit</a>
-                          <a href="">Delete</a>
+                         <a href="" @click.prevent="deleteCourse(course.id)">Delete</a>
                     </td>                  
                   </tr>              
                 </tbody>               
@@ -67,7 +67,10 @@ export default {
       }     
     },
     methods:{
-      deletecourse(id){
+      courseImage(img){
+          return "/img/courses/medium/"+img;
+      },
+      deleteCourse(id){
         // console.log(id)
          this.$Progress.start();
           axios.get('/course/destroy/'+id)
