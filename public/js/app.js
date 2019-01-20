@@ -4207,47 +4207,111 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Edit",
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get("/course/edit/".concat(this.$route.params.courseid)).then(function (response) {
-      _this.courseform.fill(response.data.course);
-    });
-  },
+  title: "New",
   data: function data() {
     return {
       courseform: new Form({
-        name: ''
+        title: '',
+        description: '',
+        photo: '',
+        user_id: '',
+        category_id: '',
+        comment_id: ''
       })
     };
   },
+  mounted: function mounted() {
+    this.$store.dispatch("allCategory");
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get("/course/edit/".concat(this.$route.params.courseid)) //fetch data to editn fill form
+    .then(function (response) {
+      console.log(response.data);
+
+      _this.courseform.fill(response.data.course);
+    }).catch(function () {});
+  },
+  computed: {
+    getallCategory: function getallCategory() {
+      return this.$store.getters.getCategory;
+    }
+  },
   methods: {
-    updatecourse: function updatecourse() {
+    changePhoto: function changePhoto(event) {
       var _this2 = this;
+
+      var file = event.target.files[0];
+
+      if (file.size > 1048576) {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: 'The File youe are uploading is larger than 2mbs!',
+          footer: '<a href>Why do I have this issue?</a>'
+        });
+      } else {
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+          _this2.courseform.photo = event.target.result;
+          console.log(event.target.result);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    },
+    updateCourse: function updateCourse() {
+      var _this3 = this;
 
       this.$Progress.start();
       this.courseform.post("/course/update/".concat(this.$route.params.courseid)).then(function () {
-        // if successfully without any errors from form submission
-        _this2.$router.push('/course-list'); // Fire.$emit('AfterCreate'); //event
-        // $('#Course').modal('hide') 
-
+        _this3.$router.push('/course-list');
 
         toast({
           type: 'success',
-          title: 'Course Created successfully'
+          title: 'Course Updated successfully'
         });
 
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
       }).catch(function () {
-        toast({
-          type: 'error',
-          title: 'There are errors check  your form again'
-        });
-
-        _this2.$Progress.fail();
+        _this3.$Progress.fail();
       });
+    },
+    updateCourseImage: function updateCourseImage() {
+      var img = this.courseform.photo;
+
+      if (img.length > 100) {
+        return this.courseform.photo;
+      } else {
+        return "img/courses/medium/".concat(this.courseform.photo);
+      }
     }
   }
 });
@@ -82119,18 +82183,22 @@ var render = function() {
   return _c("section", { staticClass: "content" }, [
     _c("div", { staticClass: "container-fluid" }, [
       _c("div", { staticClass: "row justify-content-around" }, [
-        _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "col-md-10" }, [
           _c("div", { staticClass: "card card-primary" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h3", { staticClass: "card-title" }, [
+                _vm._v("Update Course " + _vm._s(this.$route.params.courseid))
+              ])
+            ]),
             _vm._v(" "),
             _c(
               "form",
               {
-                attrs: { role: "form" },
+                attrs: { role: "form", enctype: "multipart/form-data" },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    _vm.updatecourse()
+                    _vm.updateCourse()
                   }
                 }
               },
@@ -82140,8 +82208,8 @@ var render = function() {
                     "div",
                     { staticClass: "form-group" },
                     [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v(" Course")
+                      _c("label", { attrs: { for: "title" } }, [
+                        _vm._v("Update Course")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -82149,21 +82217,21 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.courseform.name,
-                            expression: "courseform.name"
+                            value: _vm.courseform.title,
+                            expression: "courseform.title"
                           }
                         ],
                         staticClass: "form-control",
                         class: {
-                          "is-invalid": _vm.courseform.errors.has("name")
+                          "is-invalid": _vm.courseform.errors.has("title")
                         },
                         attrs: {
                           type: "text",
-                          id: "name",
-                          name: "name",
-                          placeholder: "Enter Add new Course"
+                          id: "title",
+                          name: "title",
+                          placeholder: "Enter new Course Title"
                         },
-                        domProps: { value: _vm.courseform.name },
+                        domProps: { value: _vm.courseform.title },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -82171,7 +82239,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.courseform,
-                              "name",
+                              "title",
                               $event.target.value
                             )
                           }
@@ -82179,14 +82247,141 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("has-error", {
-                        attrs: { form: _vm.courseform, field: "name" }
+                        attrs: { form: _vm.courseform, field: "title" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "description" } }, [
+                        _vm._v("Edit Course Description")
+                      ]),
+                      _vm._v(" "),
+                      _c("markdown-editor", {
+                        model: {
+                          value: _vm.courseform.description,
+                          callback: function($$v) {
+                            _vm.$set(_vm.courseform, "description", $$v)
+                          },
+                          expression: "courseform.description"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.courseform, field: "description" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "category_id" } }, [
+                        _vm._v("Select Category")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.courseform.category_id,
+                              expression: "courseform.category_id"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.courseform.errors.has(
+                              "category_id"
+                            )
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.courseform,
+                                "category_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v("Select one Category")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.getallCategory, function(category) {
+                            return _c(
+                              "option",
+                              {
+                                key: category.id,
+                                domProps: { value: category.id }
+                              },
+                              [_vm._v(_vm._s(category.name))]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.courseform, field: "category_id" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("input", {
+                        class: {
+                          "is-invalid": _vm.courseform.errors.has("photo")
+                        },
+                        attrs: { type: "file", name: "photo" },
+                        on: {
+                          change: function($event) {
+                            _vm.changePhoto($event)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("img", {
+                        attrs: {
+                          src: _vm.updateCourseImage(),
+                          alt: "",
+                          width: "250"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.courseform, field: "category_id" }
                       })
                     ],
                     1
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(0)
               ]
             )
           ])
@@ -82200,19 +82395,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Edit Course")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-footer" }, [
       _c(
         "button",
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Save")]
+        [_vm._v("Udpate")]
       )
     ])
   }
@@ -82319,23 +82506,31 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c("td", [
-                          _c("a", { attrs: { href: "" } }, [_vm._v("Edit")]),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.deleteCourse(course.id)
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "router-link",
+                              { attrs: { to: "/edit-course/" + course.id } },
+                              [_vm._v("Edit")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.deleteCourse(course.id)
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("Delete")]
-                          )
-                        ])
+                              },
+                              [_vm._v("Delete")]
+                            )
+                          ],
+                          1
+                        )
                       ])
                     }),
                     0

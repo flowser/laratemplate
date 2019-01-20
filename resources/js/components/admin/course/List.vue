@@ -37,7 +37,7 @@
                     <td>{{course.description | sortlength(40, "....")}}</td>
                     <td><img :src="courseImage(course.photo)" alt="" width="150px"></td>
                     <td>
-                         <a href="">Edit</a>
+                         <router-link :to="`/edit-course/${course.id}`">Edit</router-link>
                          <a href="" @click.prevent="deleteCourse(course.id)">Delete</a>
                     </td>                  
                   </tr>              

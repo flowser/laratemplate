@@ -98,7 +98,11 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $course = Course::findOrFail($id);
+        //    dd($course);
+        return response()->json([
+            'course' => $course,
+        ], 200);
     }
 
     /**
@@ -109,8 +113,60 @@ class CourseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $course = Course::find($id);
+ 
+        $this->validate($request,[
+            'title'=> 'required|min:2|max:50',
+            'description'=>'required|min:2|max:1000',
+        ]);
+
+        $course->title = $request ->title;
+        $course->description = $request ->description;
+        $course->category_id = $request ->category_id;
+        $course->user_id = Auth::id();              
+//phot processing
+        $currentPhoto = $course->photo;
+            if($request->photo != $currentPhoto){
+                $S_Path = public_path()."/img/courses/small/";
+                $M_Path = public_path()."/img/courses/medium/";
+                $L_Path = public_path()."/img/courses/large/";
+
+                $S_image = $S_Path. $currentPhoto;
+                $M_image = $M_Path. $currentPhoto;
+                $L_image = $L_Path. $currentPhoto;
+            
+                // dd($S_image);
+                    if(file_exists($S_image)){
+                        @unlink($S_image);  
+                    }
+                    if(file_exists($M_image)){  
+                        @unlink($M_image);
+                    }
+                    if(file_exists($L_image)){
+                        @unlink($L_image);
+                    }
+
+                 //processing photo nme and size
+                $strpos = strpos($request->photo, ';'); //positionof image name semicolon
+                $sub = substr($request->photo, 0, $strpos);
+                $ex = explode('/', $sub)[1];
+                $name = time().".".$ex;
+               
+                    $img = Image::make($request->photo);
+        //            $img->crop(300, 150, 25, 25);
+                    $img ->resize(100, 100)->save($S_Path.'/'.$name);
+                    $img ->resize(250, 250)->save($M_Path.'/'.$name);
+                    $img ->resize(500, 500)->save($L_Path.'/'.$name);                     
+
+                  
+                }else{
+                $name = $course->photo;
+            }
+
+        $course->photo = $name;
+        //end processing photo and size
+        $course->save();
     }
 
     /**
