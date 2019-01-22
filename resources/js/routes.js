@@ -8,6 +8,13 @@ import CourseList  from './components/admin/course/List.vue'
 import AddCourse  from './components/admin/course/New.vue'
 import EditCourse  from './components/admin/course/Edit.vue'
 
+//FrontEnd Comonent
+import PublicHome from './components/public/PublicHome.vue'
+import BlogPost from './components/public/blog/BlogPost.vue'
+
+
+
+
 export const routes = [
     { 
       path: '/home', 
@@ -39,6 +46,19 @@ export const routes = [
       path:'/edit-course/:courseid',
       component: EditCourse 
     },
+
+
+//Front End
+  { 
+    path:'/',
+    component: PublicHome 
+  },
+  { 
+    path:'/blog',
+    component: BlogPost 
+  },
+
+
 
 ]
 
