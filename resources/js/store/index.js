@@ -2,6 +2,7 @@ export default{
   state:{
         category:[],
         course:[],
+        blogcourse:[], //blogcoursedata
   },
   getters:{
        getCategory(state){
@@ -9,6 +10,9 @@ export default{
     },
        getCourse(state){
           return state.course
+    },
+       getBlogCourse(state){
+          return state.blogcourse
     }
   },
   actions:{
@@ -26,6 +30,13 @@ export default{
                     context.commit('coursesdata', response.data.courses)
                 })
       },
+      allBlogCourse(context){
+          axios.get('/blogcourse')
+                .then((response)=>{
+                    // console.log(response.data)
+                    context.commit('blogdata', response.data.courses)
+                })
+      },
   },
   mutations:{
       categoriesdata(state, data){
@@ -33,6 +44,9 @@ export default{
       },       
       coursesdata(state, data){
         return state.course = data
+      },       
+      blogdata(state, data){
+        return state.blogcourse = data
       }       
 
   }

@@ -10,7 +10,7 @@ import EditCourse  from './components/admin/course/Edit.vue'
 
 //FrontEnd Comonent
 import PublicHome from './components/public/PublicHome.vue'
-import BlogPost from './components/public/blog/BlogPost.vue'
+import BlogCourse from './components/public/blog/BlogCourse.vue'
 
 
 
@@ -55,7 +55,7 @@ export const routes = [
   },
   { 
     path:'/blog',
-    component: BlogPost 
+    component: BlogCourse 
   },
 
 
