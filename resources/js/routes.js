@@ -11,6 +11,7 @@ import EditCourse  from './components/admin/course/Edit.vue'
 //FrontEnd Comonent
 import PublicHome from './components/public/PublicHome.vue'
 import BlogCourse from './components/public/blog/BlogCourse.vue'
+import SingleCourse from './components/public/blog/SingleBlog.vue'
 
 
 
@@ -55,6 +56,14 @@ export const routes = [
   },
   { 
     path:'/blog',
+    component: BlogCourse 
+  },
+  { 
+    path:'/blog/:id',
+    component: SingleCourse 
+  },
+  { 
+    path:'/categories/:id',//be reirected to courese blog via category selection
     component: BlogCourse 
   },
 

@@ -5,7 +5,7 @@
                 <div class="row">
                 <div class="span4">
                     <div class="inner-heading">
-                    <h2>Blog left sidebar</h2>
+                    <h2>Blog left sidebar </h2>
                     </div>
                 </div>
                 <div class="span8">
@@ -22,7 +22,7 @@
       <div class="container">
         <div class="row">
           <div class="span8">
-            <article v-for="course in blogcourse">
+            <article v-for="course in blogcourse" :key="course.id">
               <div class="row">
                 <div class="span8">
                   <div class="post-image">
@@ -39,9 +39,9 @@
                       <li><i class="icon-calendar"></i><a href="#"> {{course.created_at | dateformat}}</a></li>
                       <li v-if="course.user"><i class="icon-user"></i><a href="#"> {{course.user.name}}</a></li>
                       <li v-if="course.category"><i class="icon-folder-open"></i><a href="#"> {{course.category.name}}</a></li>
-                      <li><i class="icon-comments"></i><a href="#">4 Comments</a></li>
+                      <li><i class="icon-comments"></i><a href="#">4 Comrrrrments</a></li>
                     </ul>
-                    <a href="#" class="pull-right">Continue reading <i class="icon-angle-right"></i></a>
+                    <router-link :to="`blogcourse/${course.id}`" class="pull-right">Continue readinrg <i class="icon-angle-right"></i></router-link>
                   </div>
                 </div>
               </div>
@@ -78,8 +78,20 @@
                         return this.$store.getters.getBlogCourse
                     }
                 },
-                method:{
-
+                methods:{
+                    getAllCategoryCourse(){
+                      if(this.$route.params.id !=null){
+                          this.$store.dispatch('getCoursebyCatId', this.$route.params.id); 
+                      }else{
+                          this.$store.dispatch('allBlogCourse'); //action from index.js
+                      }
+                        
+                    }
                 },
+                watch:{
+                  $route(to, from){
+                      this.getAllCategoryCourse();
+                  }
+                }
             }
 </script>

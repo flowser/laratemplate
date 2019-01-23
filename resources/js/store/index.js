@@ -2,7 +2,10 @@ export default{
   state:{
         category:[],
         course:[],
-        blogcourse:[], //blogcoursedata
+        blogcourse:[], //blogcoursedata, + courses per cateegory id
+        singlecourse:[],
+        allcategories:[],
+        
   },
   getters:{
        getCategory(state){
@@ -13,7 +16,14 @@ export default{
     },
        getBlogCourse(state){
           return state.blogcourse
-    }
+    },
+       singlecourse(state){
+          return state.singlecourse
+    },
+       allcategories(state){
+          return state.allcategories
+    },
+    
   },
   actions:{
       allCategory(context){
@@ -37,6 +47,27 @@ export default{
                     context.commit('blogdata', response.data.courses)
                 })
       },
+      getCourseById(context, payload){
+          axios.get('/blogcourse/show/'+payload)
+                .then((response)=>{
+                    // console.log(response.data)
+                    context.commit('singlecoursedata', response.data.course)
+                })
+      },
+      allcategories(context){
+          axios.get('/blogcourse/categories/')
+                .then((response)=>{
+                    // console.log(response.data)
+                    context.commit('allcategoriesdata', response.data.categories)
+                })
+      },
+      getCoursebyCatId(context, payload){
+          axios.get('/blogcourse/categories/courses/'+payload)
+                .then((response)=>{
+                    console.log(response.data.courses)
+                    context.commit('getCoursebyCatId', response.data.courses)
+                })
+      },
   },
   mutations:{
       categoriesdata(state, data){
@@ -47,6 +78,15 @@ export default{
       },       
       blogdata(state, data){
         return state.blogcourse = data
+      },       
+      singlecoursedata(state, data){
+        return state.singlecourse = data
+      },       
+      allcategoriesdata(state, data){
+        return state.allcategories = data
+      },       
+      getCoursebyCatId(state, payload){
+        return state.blogcourse = payload
       }       
 
   }
