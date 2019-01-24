@@ -41,7 +41,7 @@ class BlogController extends Controller
         ], 200);
     }
     //get all course by search index
-    public function search_course()
+    public function search_courses()
     {
         // $search = $request->search;/
         $search = \Request::get('s');
@@ -56,9 +56,16 @@ class BlogController extends Controller
                 ], 200);
         }else{
             return $this->index();
-        }
+        }       
         
-        
+    }
+    public function latest_courses()
+     {
+        $courses = Course::with('user', 'category')->orderBy('id', 'desc')->get();
+        //    dd($courses);
+        return response()->json([
+            'courses' => $courses,
+        ], 200);  
     }
 
     /**

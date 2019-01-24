@@ -4792,11 +4792,11 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.allcategories;
     },
     blogcourse: function blogcourse() {
-      return this.$store.getters.getBlogCourse;
+      return this.$store.getters.latestcourse;
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('allBlogCourse'); //action from index.js
+    this.$store.dispatch('latestCourse'); //action from index.js
 
     this.$store.dispatch('allcategories');
   },
@@ -99801,7 +99801,8 @@ __webpack_require__.r(__webpack_exports__);
     blogcourse: [],
     //blogcoursedata, + courses per cateegory id
     singlecourse: [],
-    allcategories: []
+    allcategories: [],
+    latestcourse: []
   },
   getters: {
     getCategory: function getCategory(state) {
@@ -99818,6 +99819,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     allcategories: function allcategories(state) {
       return state.allcategories;
+    },
+    latestcourse: function latestcourse(state) {
+      return state.latestcourse;
     }
   },
   actions: {
@@ -99862,6 +99866,13 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response.data.courses);
         context.commit('getSearchCourse', response.data.courses);
       });
+    },
+    latestCourse: function latestCourse(context) {
+      axios.get('/blogcourse/courses/latest/') //latest
+      .then(function (response) {
+        // console.log(response.data)
+        context.commit('latestcourse', response.data.courses);
+      });
     }
   },
   mutations: {
@@ -99885,6 +99896,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getSearchCourse: function getSearchCourse(state, payload) {
       return state.blogcourse = payload; //display by defalut blogcaurse
+    },
+    latestcourse: function latestcourse(state, payload) {
+      return state.latestcourse = payload; //display by defalut blogcaurse
     }
   }
 });

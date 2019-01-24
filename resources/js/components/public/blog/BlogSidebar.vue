@@ -53,11 +53,11 @@ import _ from 'lodash'
                 return this.$store.getters.allcategories;
             },
             blogcourse(){
-                return this.$store.getters.getBlogCourse
+                return this.$store.getters.latestcourse;
             }
         },        
         mounted() {
-            this.$store.dispatch('allBlogCourse'); //action from index.js
+            this.$store.dispatch('latestCourse'); //action from index.js
             this.$store.dispatch('allcategories');
         },
         methods:{            

@@ -5,6 +5,7 @@ export default{
         blogcourse:[], //blogcoursedata, + courses per cateegory id
         singlecourse:[],
         allcategories:[],
+        latestcourse:[],
         
   },
   getters:{
@@ -22,6 +23,9 @@ export default{
     },
        allcategories(state){
           return state.allcategories
+    },
+        latestcourse(state){
+          return state.latestcourse
     },
     
   },
@@ -75,6 +79,13 @@ export default{
                 context.commit('getSearchCourse', response.data.courses)
             })
       },
+      latestCourse(context){ 
+        axios.get('/blogcourse/courses/latest/')//latest
+            .then((response)=>{
+                // console.log(response.data)
+                context.commit('latestcourse', response.data.courses)
+            })
+      }
   },
   mutations:{
       categoriesdata(state, data){
@@ -97,6 +108,9 @@ export default{
       },       
       getSearchCourse(state, payload){
         return state.blogcourse = payload //display by defalut blogcaurse
+      },       
+      latestcourse(state, payload){
+        return state.latestcourse = payload //display by defalut blogcaurse
       }       
 
   }
