@@ -27,6 +27,7 @@ Route::post('/category/store', 'CategoryController@store'); //create category
 Route::get('/category/edit/{id}', 'CategoryController@edit'); //delete category
 Route::post('/category/update/{id}', 'CategoryController@update'); //delete category
 Route::get('/category/destroy/{id}', 'CategoryController@destroy'); //delete category
+Route::get('/category/destroy/selected/{id}', 'CategoryController@delete_selected'); //delete selected category
 
 // course
 Route::get('course', 'CourseController@index'); //all courses

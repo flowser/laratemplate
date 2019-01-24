@@ -109,4 +109,17 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
     }
+
+    public function delete_selected($ids) //deleted elected categoy
+    {
+        $all_ids = explode(',', $ids);
+    //    dd($all_ids);
+        foreach ($all_ids as $id){
+            // dd($id);
+            // echo $id;
+            $category = Category::findOrFail($id);
+            $category->delete();
+        }
+        
+    }
 }

@@ -4031,8 +4031,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "List",
+  data: function data() {
+    return {
+      categoryItem: [],
+      select: '',
+      all_select: false
+    };
+  },
   mounted: function mounted() {
     this.$store.dispatch("allCategory");
   },
@@ -4049,6 +4067,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$Progress.start();
       axios.get('/category/destroy/' + id).then(function () {
         // if successfully without any errors from form submission
+        _this.$Progress.start();
+
         _this.$store.dispatch("allCategory"); // refresh dataviwed fromdb
         // Fire.$emit('AfterCreate'); //event
         // $('#Category').modal('hide') 
@@ -4068,6 +4088,48 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$Progress.fail();
       });
+    },
+    deleteSelected: function deleteSelected() {
+      var _this2 = this;
+
+      console.log(this.categoryItem);
+      axios.get('/category/destroy/selected/' + this.categoryItem).then(function () {
+        // if successfully without any errors from form submission
+        _this2.$Progress.start();
+
+        _this2.categoryItem = [];
+
+        _this2.$store.dispatch("allCategory"); // refresh dataviwed fromdb
+        // Fire.$emit('AfterCreate'); //event
+        // $('#Category').modal('hide') 
+
+
+        toast({
+          type: 'success',
+          title: 'Category Deleted successfully'
+        });
+
+        _this2.$Progress.finish();
+      }).catch(function () {
+        toast({
+          type: 'error',
+          title: 'Cannot delete the category'
+        });
+
+        _this2.$Progress.fail();
+      });
+    },
+    selectAll: function selectAll() {
+      if (this.all_select == false) {
+        this.all_select = true;
+
+        for (var category in this.getallCategory) {
+          this.categoryItem.push(this.getallCategory[category].id);
+        }
+      } else {
+        this.all_select = false;
+        this.categoryItem = []; //empty
+      }
     }
   }
 });
@@ -82280,12 +82342,157 @@ var render = function() {
                   attrs: { id: "example2" }
                 },
                 [
-                  _vm._m(0),
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.select,
+                                expression: "select"
+                              }
+                            ],
+                            attrs: { name: "", id: "" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.select = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                _vm.deleteSelected
+                              ]
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Select")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Delete All")
+                            ])
+                          ]
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.all_select,
+                              expression: "all_select"
+                            }
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            checked: Array.isArray(_vm.all_select)
+                              ? _vm._i(_vm.all_select, null) > -1
+                              : _vm.all_select
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.selectAll($event)
+                            },
+                            change: function($event) {
+                              var $$a = _vm.all_select,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    (_vm.all_select = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.all_select = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.all_select = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.all_select == false
+                          ? _c("span", [_vm._v("Check all")])
+                          : _c("span", [_vm._v("Uncheck all")])
+                      ]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("S1")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Category Name")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Date")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Actions")])
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
                     _vm._l(_vm.getallCategory, function(category, index) {
                       return _c("tr", { key: category.id }, [
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.categoryItem,
+                                expression: "categoryItem"
+                              }
+                            ],
+                            attrs: { type: "checkbox" },
+                            domProps: {
+                              value: category.id,
+                              checked: Array.isArray(_vm.categoryItem)
+                                ? _vm._i(_vm.categoryItem, category.id) > -1
+                                : _vm.categoryItem
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.categoryItem,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = category.id,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.categoryItem = $$a.concat([$$v]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.categoryItem = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.categoryItem = $$c
+                                }
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(index + 1))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(category.name))]),
@@ -82336,24 +82543,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("S1")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Category Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Date")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Actions")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
