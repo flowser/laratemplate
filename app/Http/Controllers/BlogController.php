@@ -45,16 +45,20 @@ class BlogController extends Controller
     {
         // $search = $request->search;/
         $search = \Request::get('s');
-
+        if($search !=null) {
+            $courses = Course::with('user', 'category')
+                ->where('title','LIKE',"%$search%")
+                ->orWhere('description','LIKE',"%$search%")
+                ->get();
+            //    dd($courses);
+                return response()->json([
+                    'courses' => $courses,
+                ], 200);
+        }else{
+            return $this->index();
+        }
         
-        $courses = Course::with('user', 'category')
-            ->where('title','LIKE',"%$search%")
-            ->orWhere('description','LIKE',"%$search%")
-            ->get();
-        //    dd($courses);
-        return response()->json([
-            'courses' => $courses,
-        ], 200);
+        
     }
 
     /**
