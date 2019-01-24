@@ -68,6 +68,13 @@ export default{
                     context.commit('getCoursebyCatId', response.data.courses)
                 })
       },
+      SearchCourse(context, payload){
+        axios.get('/blogcourse/courses/search?s='+payload)
+            .then((response)=>{
+                console.log(response.data.courses)
+                context.commit('getSearchCourse', response.data.courses)
+            })
+      },
   },
   mutations:{
       categoriesdata(state, data){
@@ -87,6 +94,9 @@ export default{
       },       
       getCoursebyCatId(state, payload){
         return state.blogcourse = payload
+      },       
+      getSearchCourse(state, payload){
+        return state.blogcourse = payload //display by defalut blogcaurse
       }       
 
   }

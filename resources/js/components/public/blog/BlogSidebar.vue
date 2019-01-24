@@ -4,17 +4,17 @@
                 <aside class="right-sidebar">
                         <div class="widget">
                             <form class="form-search">
-                            <input placeholder="Type something" type="text" class="input-medium search-query">
-                            <button type="submit" class="btn btn-square btn-theme">Search</button>
+                                <input @keyup="RealSearch" v-model="keyword" type="text" class="input-medium search-query">
+                                <button type="submit" @click.prevent="RealSearch" class="btn btn-square btn-theme">Search</button>
                             </form>
                         </div>
                         <div class="widget">
                             <h5 class="widgetheading">Categories</h5>
                             <ul class="cat">
-                                <li v-for="category in allcategories" :key="category.id">
+                                <li v-for="category in allcategories" :key="category.id" v-if="category.courses.length>0">
                                     <i class="icon-angle-right"></i>
                                     <router-link :to="`/categories/${category.id}`">{{category.name}}</router-link>
-                                    <span> (20)</span>
+                                    <span> ({{ category.courses.length}})</span>
                                 </li>                            
                             </ul>
                         </div>
@@ -40,19 +40,31 @@
 
 <script>
     export default {
-      name:"BlogSidebar",
-      computed:{
-          allcategories(){
-              return this.$store.getters.allcategories;
-          },
+        name:"BlogSidebar",
+        data(){
+            return{
+                keyword:''
+            }
+        },
+        computed:{
+            allcategories(){
+                return this.$store.getters.allcategories;
+            },
             blogcourse(){
-                        return this.$store.getters.getBlogCourse
-                    }
-      },
+                return this.$store.getters.getBlogCourse
+            }
+        },        
         mounted() {
-             this.$store.dispatch('allBlogCourse'); //action from index.js
+            this.$store.dispatch('allBlogCourse'); //action from index.js
             this.$store.dispatch('allcategories');
         },
+        methods:{
+            RealSearch(){
+            this.$store.dispatch('SearchCourse', this.keyword); //action from index.js
+            }            
+        },
+        
+
        
     }
 </script>

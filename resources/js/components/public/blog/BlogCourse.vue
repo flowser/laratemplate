@@ -39,9 +39,9 @@
                       <li><i class="icon-calendar"></i><a href="#"> {{course.created_at | dateformat}}</a></li>
                       <li v-if="course.user"><i class="icon-user"></i><a href="#"> {{course.user.name}}</a></li>
                       <li v-if="course.category"><i class="icon-folder-open"></i><a href="#"> {{course.category.name}}</a></li>
-                      <li><i class="icon-comments"></i><a href="#">4 Comrrrrments</a></li>
+                      <li><i class="icon-comments"></i><a href="#">4 Comments</a></li>
                     </ul>
-                    <router-link :to="`blogcourse/${course.id}`" class="pull-right">Continue readinrg <i class="icon-angle-right"></i></router-link>
+                    <router-link :to="`/blog/${course.id}`" class="pull-right">Continue Reading <i class="icon-angle-right"></i></router-link>
                   </div>
                 </div>
               </div>

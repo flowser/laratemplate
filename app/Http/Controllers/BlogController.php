@@ -24,8 +24,9 @@ class BlogController extends Controller
     //get all categories
     public function all_categories()
     {
-        $categories = Category::all();
-        //    dd($courses);
+        $categories = Category::with('courses')->orderBy('id', 'desc')->get();
+        // $categories = Category::all();
+        //    dd($categories );
         return response()->json([
             'categories' => $categories,
         ], 200);
@@ -34,6 +35,22 @@ class BlogController extends Controller
     public function category_courses($id)
     {
         $courses = Course::with('user', 'category')->where('category_id', $id)->orderBy('id', 'desc')->get();
+        //    dd($courses);
+        return response()->json([
+            'courses' => $courses,
+        ], 200);
+    }
+    //get all course by search index
+    public function search_course()
+    {
+        // $search = $request->search;/
+        $search = \Request::get('s');
+
+        
+        $courses = Course::with('user', 'category')
+            ->where('title','LIKE',"%$search%")
+            ->orWhere('description','LIKE',"%$search%")
+            ->get();
         //    dd($courses);
         return response()->json([
             'courses' => $courses,

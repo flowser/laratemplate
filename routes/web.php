@@ -39,11 +39,8 @@ Route::get('/course/destroy/{id}', 'CourseController@destroy'); //delete course
 //front end
 //blog
 Route::get('blogcourse', 'BlogController@index'); //all blogcourses
-// Route::post('/blogcourse/store', 'BlogController@store'); //create blogcourse
-// Route::get('/blogcourse/edit/{id}', 'BlogController@edit'); //edit blogcourse
 Route::get('/blogcourse/show/{id}', 'BlogController@show'); //show blogcourse
 
-// Route::post('/blogcourse/update/{id}', 'BlogController@update'); //delete blogcourse
-// Route::get('/blogcourse/destroy/{id}', 'BlogController@destroy'); //delete blogcourse
+Route::get('/blogcourse/courses/search', 'BlogController@search_course'); //search blog course
 Route::get('/blogcourse/categories', 'BlogController@all_categories'); //delete blogcourse
 Route::get('/blogcourse/categories/courses/{id}', 'BlogController@category_courses'); //show courses by category id

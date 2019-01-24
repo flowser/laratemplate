@@ -4779,6 +4779,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BlogSidebar",
+  data: function data() {
+    return {
+      keyword: ''
+    };
+  },
   computed: {
     allcategories: function allcategories() {
       return this.$store.getters.allcategories;
@@ -4791,6 +4796,11 @@ __webpack_require__.r(__webpack_exports__);
     this.$store.dispatch('allBlogCourse'); //action from index.js
 
     this.$store.dispatch('allcategories');
+  },
+  methods: {
+    RealSearch: function RealSearch() {
+      this.$store.dispatch('SearchCourse', this.keyword); //action from index.js
+    }
   }
 });
 
@@ -83303,10 +83313,10 @@ var render = function() {
                               "router-link",
                               {
                                 staticClass: "pull-right",
-                                attrs: { to: "blogcourse/" + course.id }
+                                attrs: { to: "/blog/" + course.id }
                               },
                               [
-                                _vm._v("Continue readinrg "),
+                                _vm._v("Continue Reading "),
                                 _c("i", { staticClass: "icon-angle-right" })
                               ]
                             )
@@ -83374,7 +83384,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("li", [
       _c("i", { staticClass: "icon-comments" }),
-      _c("a", { attrs: { href: "#" } }, [_vm._v("4 Comrrrrments")])
+      _c("a", { attrs: { href: "#" } }, [_vm._v("4 Comments")])
     ])
   },
   function() {
@@ -83416,7 +83426,47 @@ var render = function() {
   return _c("span", { attrs: { id: "sidebar" } }, [
     _c("div", { staticClass: "span4" }, [
       _c("aside", { staticClass: "right-sidebar" }, [
-        _vm._m(0),
+        _c("div", { staticClass: "widget" }, [
+          _c("form", { staticClass: "form-search" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.keyword,
+                  expression: "keyword"
+                }
+              ],
+              staticClass: "input-medium search-query",
+              attrs: { type: "text" },
+              domProps: { value: _vm.keyword },
+              on: {
+                keyup: _vm.RealSearch,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.keyword = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-square btn-theme",
+                attrs: { type: "submit" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.RealSearch($event)
+                  }
+                }
+              },
+              [_vm._v("Search")]
+            )
+          ])
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "widget" }, [
           _c("h5", { staticClass: "widgetheading" }, [_vm._v("Categories")]),
@@ -83425,22 +83475,26 @@ var render = function() {
             "ul",
             { staticClass: "cat" },
             _vm._l(_vm.allcategories, function(category) {
-              return _c(
-                "li",
-                { key: category.id },
-                [
-                  _c("i", { staticClass: "icon-angle-right" }),
-                  _vm._v(" "),
-                  _c(
-                    "router-link",
-                    { attrs: { to: "/categories/" + category.id } },
-                    [_vm._v(_vm._s(category.name))]
-                  ),
-                  _vm._v(" "),
-                  _c("span", [_vm._v(" (20)")])
-                ],
-                1
-              )
+              return category.courses.length > 0
+                ? _c(
+                    "li",
+                    { key: category.id },
+                    [
+                      _c("i", { staticClass: "icon-angle-right" }),
+                      _vm._v(" "),
+                      _c(
+                        "router-link",
+                        { attrs: { to: "/categories/" + category.id } },
+                        [_vm._v(_vm._s(category.name))]
+                      ),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(" (" + _vm._s(category.courses.length) + ")")
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e()
             }),
             0
           )
@@ -83499,30 +83553,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "widget" }, [
-      _c("form", { staticClass: "form-search" }, [
-        _c("input", {
-          staticClass: "input-medium search-query",
-          attrs: { placeholder: "Type something", type: "text" }
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-square btn-theme",
-            attrs: { type: "submit" }
-          },
-          [_vm._v("Search")]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -99822,6 +99853,12 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response.data.courses);
         context.commit('getCoursebyCatId', response.data.courses);
       });
+    },
+    SearchCourse: function SearchCourse(context, payload) {
+      axios.get('/blogcourse/courses/search?s=' + payload).then(function (response) {
+        console.log(response.data.courses);
+        context.commit('getSearchCourse', response.data.courses);
+      });
     }
   },
   mutations: {
@@ -99842,6 +99879,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getCoursebyCatId: function getCoursebyCatId(state, payload) {
       return state.blogcourse = payload;
+    },
+    getSearchCourse: function getSearchCourse(state, payload) {
+      return state.blogcourse = payload; //display by defalut blogcaurse
     }
   }
 });
